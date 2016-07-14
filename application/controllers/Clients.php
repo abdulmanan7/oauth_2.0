@@ -77,14 +77,15 @@ class Clients extends CI_Controller {
 	public function test() {
 		$app_key = $this->input->get('app_key');
 		$format = $this->input->get('format');
+		// print_r($this->input->post());die;
 		$this->load->library('rest', array(
 			'server' => $this->server,
-			'api_key' => $api_key,
+			'api_key' => $app_key,
 			'api_name' => 'X-API-KEY',
 		));
-		$user = $this->rest->get('api/example/usera', NULL, $format);
-		// $this->rest->info($created_key);
-		print_r($user);
+		$user = $this->rest->get('example/users', array('id' => 1), "json");
+		// echo json_encode($user);die;
+		print_r(json_encode($user));
 		die;
 	}
 }
