@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Clients extends CI_Controller {
+	protected $server = "http://ercasng.com:8080/fctwb/customapi/";
+	//protected $api_key = "b35f83d49cf0585c6a104476b9dc3694eee1ec4e";
+	protected $api_key = "ddd4dcf068d26293ad75fbdde868acbce3328289";
 
 	public function index()
 	{
@@ -9,40 +12,37 @@ class Clients extends CI_Controller {
 
 		$this->load->view('get_access_token');
 	}
-	function native_curl($new_name, $new_email)
-	{
-		$username = 'admin';
-		$password = '1234';
+	public function request_key() {
+		$utc = time();
+		$header_data = array(
+			"Accept: application/json",
+			"X-API-KEY:" . $this->api_key,
+		);
+		$ch = curl_init();
+		$curlOpts = array(
+			CURLOPT_URL => $this->server . 'key/create',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_HTTPHEADER => $header_data,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_PUT => true,
 
-    // Alternative JSON version
-    // $url = 'http://twitter.com/statuses/update.json';
-    // Set up and execute the curl process
-		$curl_handle = curl_init();
-		curl_setopt($curl_handle, CURLOPT_URL, 'http://localhost/restserver/index.php/example_api/user/id/1/format/json');
-		curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl_handle, CURLOPT_POST, 1);
-		curl_setopt($curl_handle, CURLOPT_HTTPHEADER,  $header_data);
-		curl_setopt($curl_handle, CURLOPT_POSTFIELDS, array(
-			'name' => $new_name,
-			'email' => $new_email
-			));
+			CURLOPT_HEADER => 1,
+		);
+		curl_setopt_array($ch, $curlOpts);
+		$answer = curl_exec($ch);
+		$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 
-    // Optional, delete this line if your API is open
-		curl_setopt($curl_handle, CURLOPT_USERPWD, $username . ':' . $password);
+		$info = curl_getinfo($ch);
+		// $headers = $this->get_headers_from_curl_response($answer);
 
-		$buffer = curl_exec($curl_handle);
-		curl_close($curl_handle);
-
-		$result = json_decode($buffer);
-
-		if(isset($result->status) && $result->status == 'success')
-		{
-			echo 'User has been updated.';
+		// If there was an error, show it
+		if (curl_error($ch)) {
+			die(curl_error($ch));
 		}
 
-		else
-		{
-			echo 'Something has gone wrong';
-		}
+		curl_close($ch);
+
+		echo "<pre>";
+		echo $answer;
 	}
 }
