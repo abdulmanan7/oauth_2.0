@@ -57,7 +57,7 @@
 		 $("#submitGetApiKey").click(function(){
 		event.preventDefault();
     $.ajax({
-        url: "<?=base_url()?>"+"api/key/index?X-API-KEY=3ecbcb4e62a00d2bc58080218a4376f24a8079e1",
+        url: "<?=base_url()?>"+"api/key/index?X-API-KEY=boguskey",
         // crossDomain: true,
         type: "PUT",
         dataType: "json",
