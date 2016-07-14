@@ -11,9 +11,9 @@
 <body>
 <div class="container">
 <div class="col-sm-6">
-<form action="" method="POST" role="form">
+<form action="<?=base_url('clients/request_key')?>" method="POST" role="form">
 	<legend>Get Authorized !</legend>
-
+<div class="help-block">Enter your existing username and password to get access token</div>
 	<div class="form-group">
 		<label for="">Username</label>
 		<input name="username" type="text" class="form-control" placeholder="Enter Current user name">
@@ -23,13 +23,40 @@
 		<input name="password" type="password" class="form-control" placeholder="Enter Current Password">
 	</div>
 
-	
 
-	<button type="submit" id="submitGetApiKey" class="btn btn-primary">Submit</button>
+
+	<button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<?php if (isset($status) & $status == 1): ?>
+	<br>
+<p>Your APP KEY: <code><?=$key?></code></p>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<form action="<?=base_url('clients/test')?>" method="POST" role="form">
+			<legend>Test your api</legend>
+
+			<div class="form-group">
+				<label for="">App key</label>
+				<input type="text" name="app_key" value="<?=$key?>" class="form-control" id="app_key" placeholder="Enter your app key">
+			</div>
+			<div class="form-group">
+				<label for="">Return Format</label>
+				<select name="format" id="format" class="form-control" required="required">
+					<option value="json">json</option>
+					<option value="xml">xml</option>
+					<option value="csv">csv</option>
+					<option value="html">html</option>
+				</select>
+			</div>
+			<button type="submit" id="submitGetApiKey" class="btn btn-primary">TEST!</button>
+			<p id="desplay-block"></p>
+		</form>
+	</div>
+</div>
+<?php endif?>
 </div>
 <div class="col-sm-6">
-		<h4>Genral Information</h4> 
+		<h4>Genral Information</h4>
 	<div class="panel panel-primary">
 	<!-- <div class="panel-heading">
 	</div> -->
@@ -57,17 +84,16 @@
 		 $("#submitGetApiKey").click(function(){
 		event.preventDefault();
     $.ajax({
-        url: "<?=base_url()?>"+"api/key/index?X-API-KEY=boguskey",
+        url: "<?=base_url()?>"+"client/test/",
         // crossDomain: true,
-        type: "PUT",
+        type: "GET",
         dataType: "json",
+        data:{'app_key':$('#app_key').val(),'format':$('#format').val()},
         error: function(XMLHttpRequest, textStatus, errorThrown){
             alert(errorThrown);
         },
-        success: function(data){
-            for (var i = keys.length - 1; i >= 0; i--) {
-                console.log(keys[i]);
-            };
+        success: function(rdata){
+            $('#desplay-block').val(rdata);
         }
     });
  });
