@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Clients extends CI_Controller {
 	protected $server = "";
-	//protected $api_key = "b35f83d49cf0585c6a104476b9dc3694eee1ec4e";
 	protected $api_key = "ddd4dcf068d26293ad75fbdde868acbce3328289";
 	public function __construct() {
 		parent::__construct();
