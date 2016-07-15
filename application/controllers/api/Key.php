@@ -145,6 +145,37 @@ class Key extends REST_Controller {
 			], REST_Controller::HTTP_INTERNAL_SERVER_ERROR); // INTERNAL_SERVER_ERROR (500) being the HTTP response code
 		}
 	}
+	/**
+	 * Delete a key
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function delete_post() {
+		$key = $this->post('key');
+
+		// Does this key exist?
+		if (!$this->_key_exists($key)) {
+			// It doesn't appear the key exists
+			$this->response([
+				'status' => FALSE,
+				'message' => 'Invalid API key',
+			], REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+		}
+
+		// Update the key level
+		if ($this->_delete_key($key) {
+			$this->response([
+				'status' => TRUE,
+				'message' => 'Key was Delete',
+			], REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+		} else {
+			$this->response([
+				'status' => FALSE,
+				'message' => 'Could not delete the key',
+			], REST_Controller::HTTP_INTERNAL_SERVER_ERROR); // INTERNAL_SERVER_ERROR (500) being the HTTP response code
+		}
+	}
 
 	/**
 	 * Regenerate a key

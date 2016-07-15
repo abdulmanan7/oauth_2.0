@@ -16,7 +16,7 @@ class Clients extends CI_Controller {
 		$header_data = array(
 			"Accept: application/json",
 			"X-API-KEY:" . $this->api_key,
-		);
+			);
 		$ch = curl_init();
 		$curlOpts = array(
 			CURLOPT_URL => $this->server . 'key/create',
@@ -26,7 +26,7 @@ class Clients extends CI_Controller {
 			CURLOPT_PUT => true,
 
 			CURLOPT_HEADER => 1,
-		);
+			);
 		curl_setopt_array($ch, $curlOpts);
 		$answer = curl_exec($ch);
 		$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -45,46 +45,48 @@ class Clients extends CI_Controller {
 		echo $answer;
 	}
 	public function request_key() {
+		// $this->load->model('user_model');
 		$this->load->library('rest', array(
 			'server' => $this->server,
 			'api_key' => 'cw8s4csggkksos8gcgc000w00cwk0s0sok074s0g',
 			'api_name' => 'X-API-KEY',
-		));
+			));
 		$app_key = $this->rest->put('key/create');
 		if (isset($app_key->status) && $app_key->status == 1) {
 
 			$this->load->view('get_access_token', $app_key);
 		}
-		// redirect('clients', 'refresh');
-		// print_r($app_key);die;
-		$secret_key = md5($app_key['key']);
+		// $secret_key = md5($app_key['key']);
+		// $app_name = $this->input->get('app_name');
+		// if (!$this->user_model->_key_exists($app_name)) {
+		// if (isset($app_key['key'])) {
+		// 	$data = array(
+		// 		'app_key' => $app_key['key'],
+		// 		'app_name' =>  $app_name,
+		// 		'secret_key' => $secret_key,
+		// 		);
+		// 	$this->userId = $this->user_model->add($data);
 
-		if (isset($app_key['key'])) {
-			$data = array(
-				'app_name' => $app_key['key'],
-				'app_key' => $app_key['key'],
-				'secret_key' => $secret_key,
-			);
-			$this->load->model('user_model');
-			$this->userId = $this->user_model->add($data);
+		// }
+		// $result_keys = array('app_key' => $app_key['key'], 'secret_key' => $secret_key);
+		// if (isset($app_key->status) && $app_key->status == 1) {
 
-		}
-		$result_keys = array('app_key' => $app_key['key'], 'secret_key' => $secret_key);
-		print_r($result_keys);
-		die;
+		// 	$this->load->view('get_access_token', $app_key);
+		// }
+		// }else{
+		// 	$this->rest->delete('key/index',array('key' =>$app_key['key']));
+		// }
 
 	}
 	public function test() {
 		$app_key = $this->input->get('app_key');
 		$format = $this->input->get('format');
-		// print_r($this->input->post());die;
 		$this->load->library('rest', array(
 			'server' => $this->server,
 			'api_key' => $app_key,
 			'api_name' => 'X-API-KEY',
-		));
+			));
 		$user = $this->rest->get('example/users', array('id' => 1), "json");
-		// echo json_encode($user);die;
 		print_r(json_encode($user));
 		die;
 	}
