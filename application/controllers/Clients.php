@@ -10,7 +10,7 @@ class Clients extends CI_Controller {
 		$this->server = base_url('api');
 	}
 	public function index() {
-		$this->load->view('get_access_token');
+		$this->load->view('get_access_token',array('status' => 0));
 	}
 	public function create_key() {
 		$utc = time();

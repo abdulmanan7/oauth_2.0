@@ -27,7 +27,7 @@
 
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
-			<?php if (isset($status) & $status == 1): ?>
+			<?php if ($status == 1): ?>
 				<br>
 				<p>Your APP KEY: <code><?=$key?></code></p>
 				<div class="panel panel-default">
