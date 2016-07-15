@@ -57,20 +57,21 @@ class Clients extends CI_Controller {
 		}
 		// redirect('clients', 'refresh');
 		// print_r($app_key);die;
-		// $secret_key = $this->customapi_lib->createHmacsha($app_key['key'], 'sha1');
+		$secret_key = md5($app_key['key']);
 
-		// if (isset($app_key['key'])) {
-		// 	$data = array(
-		// 		'app_key' => $app_key['key'],
-		// 		'secret_key' => $secret_key,
-		// 	);
-		// 	$this->load->model('user_model');
-		// 	$this->userId = $this->user_model->add($data);
+		if (isset($app_key['key'])) {
+			$data = array(
+				'app_name' => $app_key['key'],
+				'app_key' => $app_key['key'],
+				'secret_key' => $secret_key,
+			);
+			$this->load->model('user_model');
+			$this->userId = $this->user_model->add($data);
 
-		// }
-		// $result_keys = array('app_key' => $app_key['key'], 'secret_key' => $secret_key);
-		// print_r($result_keys);
-		// die;
+		}
+		$result_keys = array('app_key' => $app_key['key'], 'secret_key' => $secret_key);
+		print_r($result_keys);
+		die;
 
 	}
 	public function test() {

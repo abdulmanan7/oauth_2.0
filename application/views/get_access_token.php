@@ -13,18 +13,11 @@
 		<div class="col-sm-6">
 			<form action="<?=base_url('clients/request_key')?>" method="POST" role="form">
 				<legend>Get Authorized !</legend>
-				<div class="help-block">Enter your existing username and password to get access token</div>
+				<div class="help-block">App Name must be unique</div>
 				<div class="form-group">
-					<label for="">Username</label>
+					<label for="">App Name</label>
 					<input name="username" type="text" class="form-control" placeholder="Enter Current user name">
 				</div>
-				<div class="form-group">
-					<label for="">Password</label>
-					<input name="password" type="password" class="form-control" placeholder="Enter Current Password">
-				</div>
-
-
-
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
 			<?php if ($status == 1): ?>
