@@ -16,21 +16,23 @@
 				<div class="help-block">App Name must be unique</div>
 				<div class="form-group">
 					<label for="">App Name</label>
-					<input name="username" type="text" class="form-control" placeholder="Enter Current user name">
+					<input name="app_name" type="text" class="form-control" placeholder="Enter Current user name">
 				</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
 			<?php if ($status == 1): ?>
 				<br>
-				<p>Your APP KEY: <code><?=$key?></code></p>
+				<p><?=$message?></p>
+				<p>Your APP KEY: <code><?=$app_key?></code></p>
+				<p>Your Secret KEY: <code><?=$secret_key?></code></p>
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<form action="<?=base_url('clients/test')?>" method="POST" role="form">
+						<form action="<?=base_url('clients/test')?>" role="form">
 							<legend>Test your api</legend>
 
 							<div class="form-group">
 								<label for="">App key</label>
-								<input type="text" name="app_key" value="<?=$key?>" class="form-control" id="app_key" placeholder="Enter your app key">
+								<input type="text" name="app_key" value="<?=$app_key?>" class="form-control" id="app_key" placeholder="Enter your app key">
 							</div>
 							<button type="submit" id="submitGetApiKey" class="btn btn-primary">TEST!</button>
 						</form>

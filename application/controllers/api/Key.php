@@ -24,7 +24,6 @@ class Key extends REST_Controller {
 		'level_post' => ['level' => 10],
 		'regenerate_post' => ['level' => 10],
 	];
-
 	/**
 	 * Insert a key into the database
 	 *
@@ -164,7 +163,7 @@ class Key extends REST_Controller {
 		}
 
 		// Update the key level
-		if ($this->_delete_key($key) {
+		if ($this->_delete_key($key)) {
 			$this->response([
 				'status' => TRUE,
 				'message' => 'Key was Delete',
