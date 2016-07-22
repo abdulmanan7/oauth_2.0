@@ -30,7 +30,7 @@
 			</form>
 			<?php if ($status == 1): ?>
 				<br>
-				<p><?=$message?></p>
+				<p class="text-danger"><?=$message?></p>
 				<p>Your APP KEY: <code><?=$app_key?></code></p>
 				<p>Your Secret KEY: <code><?=$secret_key?></code></p>
 				<div class="panel panel-default">
@@ -55,7 +55,7 @@
 </div> -->
 <div class="panel-body">
 	<ul> <a href=""></a>
-		<li>In order to get Access Token you must have default credential. or <a href="">Sign up</a> to get default credential</li>
+		<li>In order to get Access Token you must have default credential. or <a href="<?=base_url('registration')?>">Sign up</a> to get default credential</li>
 		<li>After Entering your credentail you will get access token with default grant type "Get" you can contact Admin for higher Grant(like add , update ,delete) </li>
 		<li>Custom Header : X-API-KEY e.g to set header in php :<br>
 			<code>$header_data = array(<br>

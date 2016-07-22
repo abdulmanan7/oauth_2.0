@@ -853,7 +853,6 @@ class Ion_auth_model extends CI_Model {
 			'email' => $email,
 			'ip_address' => $ip_address,
 			'created_on' => time(),
-			'api_key' => $this->_generate_key(),
 			'active' => ($manual_activation === false ? 1 : 0),
 		);
 
@@ -2135,20 +2134,25 @@ class Ion_auth_model extends CI_Model {
 		return FALSE;
 	}
 	public function _app_exists($key) {
-		return $this->db
+		$res = $this->db
 			->where("app_name", $key)
-			->count_all_results("users") > 0;
+			->count_all_results("users");
+		if ($res > 0) {
+			return TRUE;
+		}
+		return FALSE;
 	}
 	public function add($data) {
 		$this->db->insert('users', $data);
 		return $this->db->insert_id();
 	}
 	public function update_user($data) {
-		$this->db->where('user_id', $data['user_id']);
+		$this->db->where('id', $data['user_id']);
 		$this->db->set('api_key', $data['api_key']);
 		$this->db->set('secret_key', $data['secret_key']);
 		$this->db->set('app_name', $data['app_name']);
 		$this->db->update('users');
+		return $this->db->affected_rows();
 	}
 	protected function _prepare_ip($ip_address) {
 		//just return the string IP address now for better compatibility
