@@ -15,8 +15,16 @@
 				<legend>Get Authorized !</legend>
 				<div class="help-block">App Name must be unique</div>
 				<div class="form-group">
+					<label for="">username</label>
+					<input name="username" type="text" class="form-control" placeholder="Enter Current user name">
+				</div>
+				<div class="form-group">
+					<label for="">Password</label>
+					<input name="password" type="password" class="form-control" placeholder="Enter Password">
+				</div>
+				<div class="form-group">
 					<label for="">App Name</label>
-					<input name="app_name" type="text" class="form-control" placeholder="Enter Current user name">
+					<input name="app_name" type="text" class="form-control" placeholder="Enter App Name">
 				</div>
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>

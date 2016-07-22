@@ -52,23 +52,24 @@ class Clients extends CI_Controller {
 			'api_name' => 'X-API-KEY',
 		));
 		$app_key = $this->rest->put('key/create');
-		// if (isset($app_key->status) && $app_key->status == 1) {
-
-		// 	$this->load->view('get_access_token', $app_key);
-		// } else {
-		// 	print_r($app_key);
-		// 	die;
-		// }
 		$secret_key = md5($app_key->key);
 		$app_name = $this->input->post('app_name');
-		if (!$this->user_model->_key_exists($app_name)) {
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		if (!$this->user_model->_app_exists($app_name)) {
 			if (isset($app_key->key)) {
-				$data = array(
-					'app_key' => $app_key->key,
-					'app_name' => $app_name,
-					'secret_key' => $secret_key,
-				);
-				$this->userId = $this->user_model->add($data);
+				$user_id = $this->verify_login($username, $password);
+				if ($user_id > 0) {
+					$data = array(
+						'user_id' => $user_id,
+						'api_key' => $app_key->key,
+						'app_name' => $app_name,
+						'secret_key' => $secret_key,
+					);
+					$this->userId = $this->user_model->add($data);
+				} else {
+					#delete key
+				}
 			}
 			$result_keys = array(
 				"app_key" => $app_key->key,
@@ -100,5 +101,10 @@ class Clients extends CI_Controller {
 		$user = $this->rest->get('example/users', array('id' => 1), "json");
 		print_r(json_encode($user));
 		die;
+	}
+	private function verify_login($username, $password) {
+		$this->load->model('ion_auth_model', 'ion_auth');
+		$user_id = $this->ion_auth->login($username, $password);
+		return $user_id > 0 ? $user_id : 0;
 	}
 }

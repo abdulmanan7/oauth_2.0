@@ -12,6 +12,13 @@ class User_model extends CI_Model {
 		$this->db->insert('users', $data);
 		return $this->db->insert_id();
 	}
+	public function update_user($data) {
+		$this->db->where('user_id', $data['user_id']);
+		$this->db->set('api_key', $data['api_key']);
+		$this->db->set('secret_key', $data['secret_key']);
+		$this->db->set('app_name', $data['app_name']);
+		$this->db->update('users');
+	}
 	public function get_all() {
 		return $this->db->select('*')
 			->from('users')
