@@ -435,7 +435,7 @@ $config['rest_enable_access'] = FALSE;
 | table name to match e.g. my_access
 |
  */
-$config['rest_access_table'] = 'REST_grant';
+$config['rest_access_table'] = 'rest_grant';
 
 /*
 |--------------------------------------------------------------------------

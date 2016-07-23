@@ -60,7 +60,7 @@ class Registration extends CI_Controller {
 			'id' => 'username',
 			'type' => 'text',
 			'class' => 'form-control',
-			'Placeholder' => 'Enter your phone',
+			'Placeholder' => 'Enter your username',
 			'required' => 'required',
 			'value' => $this->form_validation->set_value('username'),
 		);
