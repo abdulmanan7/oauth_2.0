@@ -80,6 +80,8 @@ class Clients extends CI_Controller {
 						$this->rest->delete('key/index', array('key' => $app_key->key));
 						$message = "opps an error occur while adding key try again !";
 					}
+				} else {
+					$message = "Key cannot be created right now";
 				}
 			} else {
 				$message = "Incorrect Username & password provided";
