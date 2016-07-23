@@ -62,7 +62,7 @@ class Clients extends CI_Controller {
 					'api_name' => 'X-API-KEY',
 				));
 				$app_key = $this->rest->put('key/create');
-				if (isset($app_key->key)) {
+				if ($app_key->status == 1) {
 					$secret_key = md5($app_key->key);
 					$data = array(
 						'user_id' => $user_id,
