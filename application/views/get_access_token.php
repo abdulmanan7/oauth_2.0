@@ -11,6 +11,7 @@
 <body>
 	<div class="container">
 		<div class="col-sm-6">
+		<?php isset($message) ? print_r($message) : 0;?>
 			<form action="<?=base_url('clients/request_key')?>" method="POST" role="form">
 				<legend>Get Authorized !</legend>
 				<div class="help-block">* App Name must be unique</div>
