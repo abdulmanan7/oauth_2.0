@@ -13,7 +13,7 @@
 		<div class="col-sm-6">
 			<form action="<?=base_url('clients/request_key')?>" method="POST" role="form">
 				<legend>Get Authorized !</legend>
-				<div class="help-block">App Name must be unique</div>
+				<div class="help-block">* App Name must be unique</div>
 				<div class="form-group">
 					<label for="">Email</label>
 					<input name="username" type="text" class="form-control" placeholder="Enter Register Email">

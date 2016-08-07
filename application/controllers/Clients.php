@@ -53,41 +53,52 @@ class Clients extends CI_Controller {
 		$secret_key = "";
 		$status = 1;
 		$message = "";
-		if (!$this->ion_auth->_app_exists($app_name)) {
-			$user_id = $this->verify_login($username, $password);
-			if ($user_id > 0) {
-				$this->load->library('rest', array(
-					'server' => $this->server,
-					'api_key' => 'cw8s4csggkksos8gcgc000w00cwk0s0sok074s0g',
-					'api_name' => 'X-API-KEY',
-				));
-				$app_key = $this->rest->put('key/create');
-				if ($app_key->status == 1) {
-					$secret_key = md5($app_key->key);
-					$data = array(
-						'user_id' => $user_id,
-						'api_key' => $app_key->key,
-						'app_name' => $app_name,
-						'secret_key' => $secret_key,
-					);
-					$effected_rows = $this->ion_auth->update_user($data);
-					if ($effected_rows > 0) {
-						$app_key = $app_key->key;
-						$secret_key = $secret_key;
-						$status = 1;
-						$message = "App register successfully";
+		$user = $this->verify_login($username, $password);
+		// print_r($user);die;
+		if (isset($user->api_key) && ($user->api_key == NULL || $user->api_key == "")) {
+			if (!$this->ion_auth->_app_exists($app_name)) {
+				if ($user->id > 0) {
+					$this->load->library('rest', array(
+						'server' => $this->server,
+						'api_key' => 'cw8s4csggkksos8gcgc000w00cwk0s0sok074s0g',
+						'api_name' => 'X-API-KEY',
+					));
+					$app_key = $this->rest->put('key/create');
+					if ($app_key->status == 1) {
+						$secret_key = md5($app_key->key);
+						$data = array(
+							'user_id' => $user->id,
+							'api_key' => $app_key->key,
+							'app_name' => $app_name,
+							'secret_key' => $secret_key,
+						);
+						$effected_rows = $this->ion_auth->update_user($data);
+						if ($effected_rows > 0) {
+							$app_key = $app_key->key;
+							$secret_key = $secret_key;
+							$status = 1;
+							$message = "App register successfully";
+						} else {
+							$this->rest->delete('key/index', array('key' => $app_key->key));
+							$message = "opps an error occur while adding key try again !";
+						}
 					} else {
-						$this->rest->delete('key/index', array('key' => $app_key->key));
-						$message = "opps an error occur while adding key try again !";
+						$message = "Key cannot be created right now";
 					}
 				} else {
-					$message = "Key cannot be created right now";
+					$message = "Incorrect Username & password provided";
 				}
 			} else {
-				$message = "Incorrect Username & password provided";
+				$message = "App name already register please try a unique app name";
 			}
 		} else {
-			$message = "App name already register please try a unique app name";
+			$data = array(
+				"app_key" => $user->api_key,
+				"secret_key" => $user->secret_key,
+				"status" => 1,
+				"message" => "Api key found for the user");
+			$this->load->view('get_access_token', $data);
+			return;
 		}
 		$result_keys = array(
 			"app_key" => $app_key,
@@ -109,7 +120,7 @@ class Clients extends CI_Controller {
 		die;
 	}
 	private function verify_login($username, $password) {
-		$user_id = $this->ion_auth->is_login($username, $password);
-		return $user_id > 0 ? $user_id : 0;
+		$user = $this->ion_auth->is_login($username, $password);
+		return isset($user->id) ? $user : 0;
 	}
 }
