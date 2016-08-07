@@ -52,7 +52,7 @@ class Clients extends CI_Controller {
 
 		if ($this->form_validation->run() == FALSE) {
 			//failer
-			$data['message'] = validation_errors();
+			$data['msg'] = validation_errors();
 			$data['status'] = 0;
 			$this->load->view('get_access_token', $data);
 		} else {
@@ -114,7 +114,7 @@ class Clients extends CI_Controller {
 						"app_key" => "",
 						"secret_key" => "",
 						"status" => 0,
-						"message" => "Provided Credential either invalid or user account not exist please rigter first to get user account info");
+						"msg" => "Incorrect login detail provided");
 					$this->load->view('get_access_token', $data);
 				}
 				return;
